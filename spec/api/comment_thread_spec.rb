@@ -327,6 +327,14 @@ describe "app" do
         last_response.content_type.should == "application/json;charset=utf-8"
       end
 
+      it "returns 404 if thread does not exist" do
+        thread = CommentThread.first
+        thread_id = thread.id
+        thread.destroy
+        get "/api/v1/threads/#{thread_id}"
+        last_response.status.should == 404
+      end
+
       it "get information of a single comment thread" do
         thread = CommentThread.first
         get "/api/v1/threads/#{thread.id}"
